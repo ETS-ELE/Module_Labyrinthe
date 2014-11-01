@@ -205,3 +205,50 @@ void labyrinthe_dessiner_solution(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTH
 			}
 		}
 }
+
+void labyrinthe_dessiner_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int chemin[], int longueur_chemin)
+{
+	int k;
+
+	for(k = 0; k < longueur_chemin; k++)
+	{
+		int position_actuel = chemin[k];
+		int prochaine_position = chemin[k + 1];
+		int i, j;
+
+		//Prochaine position est en dessous de la position actuel
+		if(prochaine_position == position_actuel + 1)
+		{
+			i = 0; //Je n'es pas pense au i; encore
+			j = prochaine_position + position_actuel;
+			j++; //Modification de i++
+
+			labyrinthe[i][j] = LABYRINTHE_VIDE;
+			if(k != longueur - 1)
+			{
+				j++; //Modification de i++
+				labyrinthe[i][j] = LABYRINTHE_VIDE;
+			}
+		}
+
+		//Prochaine position est a droite de la position actuel
+		else if(prochaine_position == position_actuel + ((LABYRINTHE_NB_LIGNES -1)/2))
+		{
+			int i, j, c; //c pour colonne
+
+			for(c = 0; c < LABYRINTHE_NB_COLONNES; c++)
+			{
+				if(position_actuel > (LABYRINTHE_NB_LIGNES * c) && position_actuel <= (LABYRINTHE_NB_COLONNES * (c + 1))
+				{
+					i = (c + (c + 1));
+					j = 0; //Je n'es pas pense au j encore
+					labyrinthe[i][j] = LABYRINTHE_VIDE;
+					i++;
+					labtrinthe[i][j] = LABYRINTHE_VIDE;
+					if(k != longeur_chemin - 1)
+					{
+						i++;
+						labyrinthe[i][j] = LABYRINTHE_VIDE;
+					}
+				}
+			}
