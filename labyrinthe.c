@@ -252,3 +252,19 @@ void labyrinthe_dessiner_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_
 					}
 				}
 			}
+		}
+		else if(position_actuel == prochaine_position - 1)
+		{
+			i = 0; //Je n'es pas pense au i; encore
+			j = prochaine_position + position_actuel;
+			j--; //Modification de i++
+
+			labyrinthe[i][j] = LABYRINTHE_VIDE;
+			if(k != longueur - 1)
+			{
+				j--; //Modification de i++
+				labyrinthe[i][j] = LABYRINTHE_VIDE;
+			}
+		}
+	}
+}
