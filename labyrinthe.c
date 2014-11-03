@@ -316,10 +316,36 @@ void labyrinthe_dessiner_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_
 	}
 }
 
+
+
+
+
 void ajouter_un_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int* chemins[], int* longueurs_chemins, int depart)
 {
+	int position_x;
+	int position_y;
+	int position_gros_tableau;
 
+	pile_initialiser_version_utile(chemins, longueurs_chemins, 1);
+	*chemins[0] = depart;
+	
+	do
+	{
+	chemin_aleatoire_ajouter_un_pas(chemins, longueurs_chemins, (LABYRINTHE_NB_LIGNES - 1)/2, (LABYRINTHE_NB_COLONNES - 1)/2);//ajoute un nouveau pas au chemin
+
+	position_x = *chemins[0] / ((LABYRINTHE_NB_LIGNES-1) / 2);	//coordonee en x dans le tableau de 4x4
+	position_y = *chemins[0] % ((LABYRINTHE_NB_COLONNES-1) / 2); //coordonee en y dans le tableau de 4x4
+
+	position_x = position_x*2 + 1;	//coordonee en x dans le tableau de 9x9
+	position_y = position_y*2 + 1;	//coordonee en y dans le tableau de 9x9
+
+	position_gros_tableau = ((LABYRINTHE_NB_LIGNES*position_x) + position_y);
+
+
+	}	while (!est_vide(labyrinthe, position_gros_tableau));
+	//donne prochaine position à ajouter au chemin, si valide, ajoute, sinon tronque
 }
+
 
 void labyrinthe_generer(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES])
 {
@@ -342,4 +368,32 @@ void labyrinthe_generer(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLON
 	}
 	ajouter_sortie(labyrinthe);
 	labyrinthe[1][1] = LABYRINTHE_ENTREE;
+}
+
+
+
+static int obtenir_voisins( int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int no_case, int voisins[NB_VOISINS], int etat)
+{
+	if (obtenir_etat(labyrinthe, no_case+1) == etat) //case du bas
+		voisins[0] = no_case+1;
+	else
+		voisins[0] = -1;
+
+	if (obtenir_etat(labyrinthe, no_case-1) == etat) //case du haut
+		voisins[1] = no_case-1;
+	else
+		voisins[1] = -1;
+
+	if (obtenir_etat(labyrinthe, no_case + LABYRINTHE_NB_COLONNES) == etat) //case a droite
+		voisins[2] = no_case + LABYRINTHE_NB_COLONNES;
+	else
+		voisins[2] = -1;
+
+	if (obtenir_etat(labyrinthe, no_case - LABYRINTHE_NB_COLONNES) == etat) //case a gauche
+		voisins[3] = no_case - LABYRINTHE_NB_COLONNES;
+	else
+		voisins[3] = -1;
+
+	//Cette fonction permet d’obtenir le nombre de voisins d’une case du labyrinthe ainsi que leurs indices de position. 
+	//Seulement les voisins valides (dans la grille du labyrinthe) et qui ont un état correspondant à celui reçu en paramètre sont retournés dans le tableau voisins. 
 }
