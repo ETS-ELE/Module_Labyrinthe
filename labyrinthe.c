@@ -246,7 +246,7 @@ void labyrinthe_dessiner_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_
 		else if(prochaine_position == position_actuel + ((LABYRINTHE_NB_LIGNES - 1)/2))
 		{
 			//Pour trouver i
-			i = (position_actuel%((LABYRINTHE_NB_LIGNES - 1)/2) * 2) + 1;
+			i = (position_actuel%(((LABYRINTHE_NB_LIGNES - 1)/2) * 2) + 1);
 
 			//Pour trouver j et creuser
 			for(c = 0; c < ((LABYRINTHE_NB_COLONNES - 1) / 2) - 1; c++)
@@ -294,7 +294,7 @@ void labyrinthe_dessiner_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_
 		else if(prochaine_position == position_actuel + ((LABYRINTHE_NB_LIGNES - 1)/2))
 		{
 			//Pour trouver i
-			i = (position_actuel%((LABYRINTHE_NB_LIGNES - 1)/2) * 2) + 1;
+			i = (position_actuel%(((LABYRINTHE_NB_LIGNES - 1)/2) * 2) + 1);
 
 			//Pour trouver j et creuser
 			for(c = 0; c < ((LABYRINTHE_NB_COLONNES - 1) / 2) - 1; c++)
