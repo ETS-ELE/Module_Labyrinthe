@@ -1,5 +1,6 @@
 #include "Module_Pile.h"
 #include "Labyrinthe.h"
+#include "Aleatoire.h"
 
 /************************************************************************************************/
 /*                                        DEFINITION                                            */
@@ -35,11 +36,11 @@ static int obtenir_etat(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLON
 	}
 	return -1;
 }
-	
+
 static int est_vide(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int position)
 {
 	int vide = obtenir_etat(labyrinthe,position);
-	
+
 	if(vide == LABYRINTHE_VIDE)
 	{
 		return 1;
@@ -93,13 +94,13 @@ void labyrinthe_dessiner_solution(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTH
 		//Prochaine position est en dessous de la position actuel
 		if(prochaine_position == position_actuel + 1)
 		{
-			i++;
+			j++; //Modification de i++
 			if(type_solution == LABYRINTHE_SOLUTION_TEMPORAIRE)
 			{
 				labyrinthe[i][j] = LABYRINTHE_SOLUTION_TEMPORAIRE;
 				if(k != longueur - 1)
 				{
-					i++;
+					j++; //Modification de i++
 					labyrinthe[i][j] = LABYRINTHE_SOLUTION_TEMPORAIRE;
 				}
 			}
@@ -204,6 +205,7 @@ void labyrinthe_dessiner_solution(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTH
 				printf("Type de solution inconnue");
 			}
 		}
+	}
 }
 
 void labyrinthe_dessiner_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int chemin[], int longueur_chemin)
@@ -224,7 +226,7 @@ void labyrinthe_dessiner_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_
 			j++; //Modification de i++
 
 			labyrinthe[i][j] = LABYRINTHE_VIDE;
-			if(k != longueur - 1)
+			if(k != longueur_chemin - 1)
 			{
 				j++; //Modification de i++
 				labyrinthe[i][j] = LABYRINTHE_VIDE;
@@ -238,14 +240,14 @@ void labyrinthe_dessiner_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_
 
 			for(c = 0; c < LABYRINTHE_NB_COLONNES; c++)
 			{
-				if(position_actuel > (LABYRINTHE_NB_LIGNES * c) && position_actuel <= (LABYRINTHE_NB_COLONNES * (c + 1))
+				if(position_actuel > (LABYRINTHE_NB_LIGNES * c) && position_actuel <= (LABYRINTHE_NB_COLONNES * (c + 1)))
 				{
 					i = (c + (c + 1));
 					j = 0; //Je n'es pas pense au j encore
 					labyrinthe[i][j] = LABYRINTHE_VIDE;
 					i++;
-					labtrinthe[i][j] = LABYRINTHE_VIDE;
-					if(k != longeur_chemin - 1)
+					labyrinthe[i][j] = LABYRINTHE_VIDE;
+					if(k != longueur_chemin - 1)
 					{
 						i++;
 						labyrinthe[i][j] = LABYRINTHE_VIDE;
@@ -253,18 +255,64 @@ void labyrinthe_dessiner_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_
 				}
 			}
 		}
-		else if(position_actuel == prochaine_position - 1)
-		{
-			i = 0; //Je n'es pas pense au i; encore
-			j = prochaine_position + position_actuel;
-			j--; //Modification de i++
 
-			labyrinthe[i][j] = LABYRINTHE_VIDE;
-			if(k != longueur - 1)
+		//Prochaine position est au dessus de la position actuel
+		else if(prochaine_position == position_actuel - 1)
+		{
+			if(type_solution == LABYRINTHE_SOLUTION_TEMPORAIRE)
 			{
-				j--; //Modification de i++
-				labyrinthe[i][j] = LABYRINTHE_VIDE;
+				i--;
+				labyrinthe[i][j] = LABYRINTHE_SOLUTION_TEMPORAIRE;
+				if(k != longueur - 1)
+				{
+					i--;
+					labyrinthe[i][j] = LABYRINTHE_SOLUTION_TEMPORAIRE;
+				}
+			}
+			else if(type_solution == LABYRINTHE_SOLUTION)
+			{
+				i--;
+				labyrinthe[i][j] = LABYRINTHE_SOLUTION;
+				if(k != longueur - 1)
+				{
+					i--;
+					labyrinthe[i][j] = LABYRINTHE_SOLUTION;
+				}
+			}
+			else
+			{
+				printf("Type de solution inconnue");
+			}
+		}
+
+		//Prochaine position est a gauche de la position actuel
+		else if(prochaine_position == position_actuel - ((LABYRINTHE_NB_LIGNES -1)/2))
+		{
+			if(type_solution == LABYRINTHE_SOLUTION_TEMPORAIRE)
+			{
+				j--;
+				labyrinthe[i][j] = LABYRINTHE_SOLUTION_TEMPORAIRE;
+				if(k != longueur - 1)
+				{
+					j--;
+					labyrinthe[i][j] = LABYRINTHE_SOLUTION_TEMPORAIRE;
+				}
+			}
+			else if(type_solution == LABYRINTHE_SOLUTION)
+			{
+				j--;
+				labyrinthe[i][j] = LABYRINTHE_SOLUTION;
+				if(k != longueur - 1)
+				{
+					j--;
+					labyrinthe[i][j] = LABYRINTHE_SOLUTION;
+				}
+			}
+			else
+			{
+				printf("Type de solution inconnue");
 			}
 		}
 	}
 }
+
