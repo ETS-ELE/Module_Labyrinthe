@@ -315,3 +315,31 @@ void labyrinthe_dessiner_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_
 		}
 	}
 }
+
+void ajouter_un_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int* chemins[], int* longueurs_chemins, int depart)
+{
+
+}
+
+void labyrinthe_generer(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES])
+{
+	int k;
+	int nb_colonnes = ((LABYRINTHE_NB_COLONNES - 1) / 2);
+	int nb_lignes = ((LABYRINTHE_NB_LIGNES - 1) / 2);
+	int *chemins[] = {NULL};
+	int longueurs_chemins;
+
+	labyrinthe_initialiser(labyrinthe);
+	labyrinthe[1][1] = LABYRINTHE_VIDE;
+
+	for(k = 0; k < (nb_colonnes * nb_lignes) - 1; k++)
+	{
+		if(k == LABYRINTHE_MUR)
+		{
+			ajouter_un_chemin(labyrinthe,chemins,&longueurs_chemins,k);
+			labyrinthe_dessiner_chemin(labyrinthe,*chemins,longueurs_chemins);
+		}
+	}
+	ajouter_sortie(labyrinthe);
+	labyrinthe[1][1] = LABYRINTHE_ENTREE;
+}
