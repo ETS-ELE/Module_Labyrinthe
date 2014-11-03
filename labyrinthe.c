@@ -374,6 +374,9 @@ void labyrinthe_generer(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLON
 
 static int obtenir_voisins( int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int no_case, int voisins[NB_VOISINS], int etat)
 {
+	int x=0;
+	int buffer;
+	
 	if (obtenir_etat(labyrinthe, no_case+1) == etat) //case du bas
 		voisins[0] = no_case+1;
 	else
@@ -393,6 +396,19 @@ static int obtenir_voisins( int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_C
 		voisins[3] = no_case - LABYRINTHE_NB_COLONNES;
 	else
 		voisins[3] = -1;
+
+	while (!(x==4))
+	{
+		if (voisins[x+1] > voisins[x])
+		{
+			buffer = voisins[x];
+			voisins[x] = voisins[x+1];
+			voisins[x+1] = buffer;
+			x=0;
+		}
+		else
+			x++;
+	}
 
 	//Cette fonction permet d’obtenir le nombre de voisins d’une case du labyrinthe ainsi que leurs indices de position. 
 	//Seulement les voisins valides (dans la grille du labyrinthe) et qui ont un état correspondant à celui reçu en paramètre sont retournés dans le tableau voisins. 
