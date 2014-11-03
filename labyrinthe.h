@@ -35,7 +35,6 @@
 */
 void labyrinthe_afficher(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES]);
 
-
 void labyrinthe_convertir_en_image(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], unsigned char image[]);
 
 /*  LABYRINTHE_INITIALISER
@@ -68,3 +67,5 @@ int labyrinthe_resoudre(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLON
 void labyrinthe_dessiner_solution(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int solution[], int longueur, int type_solution);
 
 void labyrinthe_dessiner_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int chemin[], int longueur_chemin);
+
+void ajouter_un_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int *chemins[], int* longueurs_chemins, int depart);
