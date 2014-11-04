@@ -143,4 +143,22 @@ LABYRINTHE_AJOUTER_CHEMIN
 	Return : 	Void.
 */
 /************************************************************************************************/
+
+static int obtenir_voisins(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int no_case, int voisins[NB_VOISINS], int etat);
+/* 
+OBTENIR_VOISINS
+	Cette fonction permet d’obtenir le nombre de voisins d’une case du labyrinthe ainsi que leurs indices de position. 
+	Seulement les voisins valides (dans la grille du labyrinthe) et qui ont un état correspondant à celui reçu 
+	en paramètre sont retournés dans le tableau voisins. 
+
+	Parametre : 	int labyrinthe[][]	--> Tableau contenant le labyrinthe.
+			int no_case		--> Variable contenant la position que l'on veut regarder les voisins.
+			int voisins[]		--> Tableau[] contenant les positions des voisins possibles.
+						    Remplace par "-1" si la cases n'est pas un voisin
+			int etat		--> Type d'état que doit regarder la fonction : "solution" ou "vide"
+
+	Return : 	int nombre de voisins
+*/
+/************************************************************************************************/
+
 #endif
