@@ -9,6 +9,8 @@
 void labyrinthe_initialiser(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES])
 {
 	int i, j;
+	
+	//Parcour le tableau[][] au complet et place un "mur" dans toutes les cases
 	for(i = 0; i < LABYRINTHE_NB_LIGNES; i++)
 	{
 		for(j = 0; j < LABYRINTHE_NB_COLONNES; j++)
@@ -20,9 +22,11 @@ void labyrinthe_initialiser(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_C
 
 static int obtenir_etat(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int position)
 {
-
+	//Cette Fonction est à changer pour l'algorithme trouver plus bas pour trouver les i et les j
 	int i, j;
 	int position_actuel = 0;
+	
+	//Parcour le tableau[][] jusqu'à ce que la position du tableau[][] corresponde à la position
 	for(j = 1; j < LABYRINTHE_NB_COLONNES; j += 2)
 	{
 		for(i = 1; i < LABYRINTHE_NB_LIGNES; i += 2)
@@ -68,6 +72,8 @@ static int est_sortie(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNE
 static void ajouter_sortie(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES])
 {
 	int i, j;
+	
+	//Regarde le premier "couloir vide" depuis le bas à droite, et en fait la sortie
 	for(j = LABYRINTHE_NB_COLONNES; j > LABYRINTHE_NB_COLONNES; j -= 2)
 	{
 		for(i = LABYRINTHE_NB_LIGNES; i > LABYRINTHE_NB_LIGNES; i -= 2)
