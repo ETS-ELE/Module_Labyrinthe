@@ -322,9 +322,100 @@ void labyrinthe_dessiner_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_
 	}
 }
 
+void labyrinthe_generer(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES])
+{
+	int k;
+	int nb_colonnes = ((LABYRINTHE_NB_COLONNES - 1) / 2);
+	int nb_lignes = ((LABYRINTHE_NB_LIGNES - 1) / 2);
+	int *chemins[] = {NULL};
+	int longueurs_chemins;
 
+	labyrinthe_initialiser(labyrinthe);
+	labyrinthe[1][1] = LABYRINTHE_VIDE;
 
+	for(k = 0; k < (nb_colonnes * nb_lignes) - 1; k++)
+	{
+		if(k == LABYRINTHE_MUR)
+		{
+			ajouter_un_chemin(labyrinthe,chemins,&longueurs_chemins,k);
+			labyrinthe_dessiner_chemin(labyrinthe,*chemins,longueurs_chemins);
+		}
+	}
+	ajouter_sortie(labyrinthe);
+	labyrinthe[1][1] = LABYRINTHE_ENTREE;
+}
 
+int labyrinthe_resoudre(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int* solution[], int* longueur_solution)
+{
+	int i, j, k;
+	int depart = 0;
+	int *pile_visite[] = {NULL};
+	int *voisins[] = {NULL};
+	int longueur_visite = 0;
+
+	for(i = 0; i < LABYRINTHE_NB_LIGNES; i++)
+	{
+		for(j = 0; j < LABYRINTHE_NB_COLONNES; j++)
+		{
+			if(labyrinthe[i][j] == LABYRINTHE_ENTREE)
+			{
+				depart = (i/2)+(4*(j/2));
+			}
+		}
+	}
+	pile_ajouter(solution, longueur_solution, depart);
+	pile_ajouter(pile_visite, &longueur_visite, depart);
+
+	while(longueur_solution > 0 && (*solution)[0] != LABYRINTHE_SORTIE)
+	{
+		int sortie_trouve = 0;
+		obtenir_voisins(labyrinthe, (*solution)[0], *voisins, LABYRINTHE_SORTIE);
+		for(k = 0; k < NB_VOISINS - 1; k++)
+		{
+			if((*voisins)[k] != -1)
+			{
+				pile_ajouter(solution, longueur_solution, (*voisins)[k]);
+				sortie_trouve = 1;
+			}
+		}
+		if(!sortie_trouve)
+		{
+			int voisin_disponible = 0;
+
+			obtenir_voisins(labyrinthe, (*solution)[0], *voisins, LABYRINTHE_VIDE);
+
+			//comparer a pile_visite
+			
+			for(k = 0; k < NB_VOISINS; k++)
+			{
+				if(pile_est_present(*solution, *longueur_solution, (*voisins)[k]) != -1)
+				{
+					(*voisins)[k] = -1;
+				}
+			}
+			for(k = 0; k < NB_VOISINS; k++)
+			{
+
+			}
+			for(k = 0; k < NB_VOISINS; k++)
+			{
+				if((*voisins)[k] != -1)
+				{
+					voisin_disponible++;
+				}
+			}		
+
+			//Gestion des voisin commence ici
+
+			pile_ajouter(solution, longueur_solution, (*voisins)[rand() % voisin_disponible]);
+			pile_ajouter(pile_visite, &longueur_visite, (*voisins)[rand() % voisin_disponible]);
+			
+			//si pu de voisin
+			if(voisin_disponible == 0)
+
+		}
+	}
+}
 
 void ajouter_un_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int* chemins[], int* longueurs_chemins, int depart)
 {
@@ -351,32 +442,6 @@ void ajouter_un_chemin(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONN
 	}	while (!est_vide(labyrinthe, position_gros_tableau));
 	//donne prochaine position à ajouter au chemin, si valide, ajoute, sinon tronque
 }
-
-
-void labyrinthe_generer(int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES])
-{
-	int k;
-	int nb_colonnes = ((LABYRINTHE_NB_COLONNES - 1) / 2);
-	int nb_lignes = ((LABYRINTHE_NB_LIGNES - 1) / 2);
-	int *chemins[] = {NULL};
-	int longueurs_chemins;
-
-	labyrinthe_initialiser(labyrinthe);
-	labyrinthe[1][1] = LABYRINTHE_VIDE;
-
-	for(k = 0; k < (nb_colonnes * nb_lignes) - 1; k++)
-	{
-		if(k == LABYRINTHE_MUR)
-		{
-			ajouter_un_chemin(labyrinthe,chemins,&longueurs_chemins,k);
-			labyrinthe_dessiner_chemin(labyrinthe,*chemins,longueurs_chemins);
-		}
-	}
-	ajouter_sortie(labyrinthe);
-	labyrinthe[1][1] = LABYRINTHE_ENTREE;
-}
-
-
 
 static int obtenir_voisins( int labyrinthe[LABYRINTHE_NB_LIGNES][LABYRINTHE_NB_COLONNES], int no_case, int voisins[NB_VOISINS], int etat)
 {
