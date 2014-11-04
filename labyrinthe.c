@@ -1,6 +1,6 @@
-#include "Module_Pile.h"
+
 #include "Labyrinthe.h"
-#include "Aleatoire.h"
+
 
 /************************************************************************************************/
 /*                                        DEFINITION                                            */
